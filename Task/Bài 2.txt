@@ -1,0 +1,13 @@
+Ngôn ngữ cho phép sử dụng những ký tự nào trong chương trình? : TQHA
+
+Các loại hằng : Minh Khánh
+
+Các kiểu dữ liệu: dữ liệu chuẩn, dữ liệu có cấu trúc : Phúc
+
+Các toán tử: số học, so sánh, gán : Long
+
+Các từ khóa. Vấn đề phân biệt chữ hoa/thường cho từ khóa : Mạnh
+
+Quy định về định danh. Vấn đề chữ hoa/thường : Phúc
+
+Lưu trữ thông tin cho số : TQHA

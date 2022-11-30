@@ -1,0 +1,9 @@
+getToken: Khánh
+
+readIdentKeyword: TQHA
+
+skipComment: Phúc
+
+readNumber: Mạnh
+
+readConstChar: Long

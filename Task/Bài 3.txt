@@ -1,0 +1,16 @@
+a. Khánh
+
+b. Phúc
+
+c. Mạnh
+
+d. Long
+
+e. TQHA
+
+
+Kiểm soát độ dài và giá trị các số để đảm bảo có thể dung hàm atoi của C mà không bị lỗi: Khánh
+
+Ngôn ngữ chấp nhận số thực dạng thông thường (không chứa ký hiệu E). Từ khóa cho kiểu thực là real: Mạnh
+
+Phân biệt số nguyên và số thực bằng cách sử dụng cấu trúc union trong trường value: Long + TQHA
