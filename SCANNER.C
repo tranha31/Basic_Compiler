@@ -91,65 +91,31 @@ Token* readConstChar(void) {
 	Token* token = makeToken(TK_CHAR, lineNo, colNo);
 
 	readChar();
-
-	int count = 0;
-	int state = 0;
-	int singleQuote;
-	while (currentChar != EOF)
-	{
-		if (charCodes[currentChar] == CHAR_SINGLEQUOTE) {
-			singleQuote = currentChar;
-			if (state == 1) {
-				state = 2;
-				readChar();
-			}
-			else if(state == 2){
-				token->conststring[count++] = (char)singleQuote;
-				token->conststring[count++] = (char)singleQuote;
-				state = 1;
-				readChar();
-			}
-			else {
-				state = 1;
-				readChar();
-			}
-		}
-		else {
-			if (count > 255) {
-				token->tokenType = TK_NONE;
-				error(ERR_CONSTCHARTOOLONG, token->lineNo, token->colNo);
-				return token;
-			}
-			else {
-				if (state == 1) {
-					if (count == 0) {
-						token->tokenType = TK_NONE;
-						error(ERR_INVALIDCHARCONSTANT, token->lineNo, token->colNo);
-						return token;
-					}
-					else {
-						token->conststring[count] = '\0';
-						return token;
-					}
-					
-				}
-				else {
-					state = 0;
-					token->conststring[count++] = (char)currentChar;
-					readChar();
-				}
-				
-			}
-			
-		}
-	}
-
 	if (currentChar == EOF) {
 		token->tokenType = TK_NONE;
 		error(ERR_INVALIDCHARCONSTANT, token->lineNo, token->colNo);
 		return token;
 	}
 
+	token->string[0] = currentChar;
+	token->string[1] = '\0';
+
+	readChar();
+	if (currentChar == EOF) {
+		token->tokenType = TK_NONE;
+		error(ERR_INVALIDCHARCONSTANT, token->lineNo, token->colNo);
+		return token;
+	}
+
+	if (charCodes[currentChar] == CHAR_SINGLEQUOTE) {
+		readChar();
+		return token;
+	}
+	else {
+		token->tokenType = TK_NONE;
+		error(ERR_INVALIDCHARCONSTANT, token->lineNo, token->colNo);
+		return token;
+	}
 }
 
 Token* getToken(void) {
@@ -231,7 +197,7 @@ Token* getToken(void) {
 			return makeToken(SB_RSEL, ln, cn);
 		}
 		else return makeToken(SB_PERIOD, ln, cn);*/
-
+		
 		return makeToken(SB_PERIOD, ln, cn);
 	case CHAR_SEMICOLON:
 		token = makeToken(SB_SEMICOLON, lineNo, colNo);
@@ -297,7 +263,7 @@ void printToken(Token* token) {
 	case TK_NONE: printf("TK_NONE\n"); break;
 	case TK_IDENT: printf("TK_IDENT(%s)\n", token->string); break;
 	case TK_NUMBER: printf("TK_NUMBER(%s)\n", token->string); break;
-	case TK_CHAR: printf("TK_CHAR(\'%s\')\n", token->conststring); break;
+	case TK_CHAR: printf("TK_CHAR(\'%s\')\n", token->string); break;
 	case TK_EOF: printf("TK_EOF\n"); break;
 
 	case KW_PROGRAM: printf("KW_PROGRAM\n"); break;
@@ -380,13 +346,12 @@ int scan(char* fileName) {
 int main()
 {
 	//clrscr();
+		//clrscr();
 	char* file1 = "test/example1.kpl";
 	char* file2 = "test/example2.kpl";
 	char* file3 = "test/example3.kpl";
-	char* file4 = "test/example4.kpl";
-	char* file5 = "test/example5.kpl";
 
-	char* file = file5;
+	char* file = file1;
 	if (scan(file) == IO_ERROR) {
 		printf("Can\'t read input file!\n");
 	}
