@@ -1,0 +1,2 @@
+CALL  WRITEC('abc
+			def');
