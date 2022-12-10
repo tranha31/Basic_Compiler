@@ -46,6 +46,36 @@ void skipComment() {
 		error(ERR_ENDOFCOMMENT, lineNo, colNo);
 }
 
+void skipCommentBeginSlash() {
+	int state = 0;
+	while (currentChar != EOF && state < 2)
+	{
+		switch (charCodes[currentChar])
+		{
+		case CHAR_TIMES:
+			state = 1;
+			break;
+		case CHAR_SLASH:
+			if (state == 1) {
+				state = 2;
+			}
+			else {
+				state = 0;
+			}
+			break;
+		default:
+			state = 0;
+			break;
+		}
+
+		readChar();
+	}
+
+	if (state != 2) {
+		error(ERR_ENDOFCOMMENT, lineNo, colNo);
+	}
+}
+
 Token* readIdentKeyword(void) {
 	Token* token = makeToken(TK_NONE, lineNo, colNo);
 	int count = 1;
@@ -176,6 +206,25 @@ Token* getToken(void) {
 		readChar();
 		return token;
 	case CHAR_SLASH:
+		if(currentChar == EOF){
+			return makeToken(SB_SLASH, lineNo, colNo);
+		}
+
+		switch (charCodes[currentChar])
+		{
+		case CHAR_TIMES:
+			readChar();
+			skipCommentBeginSlash();
+			return getToken();
+		case CHAR_SLASH:
+			readChar();
+			while(currentChar != EOF && currentChar != '\n'){
+				readChar();
+			}
+			return getToken();		
+		default:
+			return makeToken(SB_SLASH, lineNo, colNo);
+		}
 		token = makeToken(SB_SLASH, lineNo, colNo);
 		readChar();
 		return token;
@@ -384,9 +433,9 @@ int main()
 	char* file2 = "test/example2.kpl";
 	char* file3 = "test/example3.kpl";
 	char* file4 = "test/example4.kpl";
-	char* file5 = "test/example5.kpl";
+	char* file5 = "test/comment1.pkl";
 
-	char* file = file1;
+	char* file = file5;
 	if (scan(file) == IO_ERROR) {
 		printf("Can\'t read input file!\n");
 	}
