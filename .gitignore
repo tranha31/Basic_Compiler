@@ -1,0 +1,6 @@
+*.o
+scanner
+.~lock.Scanner.ppt#
+.vscode
+.vs
+CppProperties.json

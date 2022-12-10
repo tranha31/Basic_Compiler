@@ -13,15 +13,16 @@ int currentChar;
 
 int readChar(void) {
     currentChar = getc(inputStream);
+    // printf("%d\n",currentChar);
     colNo++;
     if (currentChar == '\n') {
         lineNo++;
         colNo = 0;
-    }
+    } 
     return currentChar;
 }
 
-openInputStream(char* fileName) {
+int openInputStream(char* fileName) {
     inputStream = fopen(fileName, "rt");
     if (inputStream == NULL)
     {

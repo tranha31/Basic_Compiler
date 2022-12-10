@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
+#include <string.h>
 #include "reader.h"
 #include "charcode.h"
 #include "token.h"
@@ -158,7 +158,7 @@ Token* getToken(void) {
 
 	if (currentChar == EOF)
 		return makeToken(TK_EOF, lineNo, colNo);
-
+	
 	switch (charCodes[currentChar]) {
 	case CHAR_SPACE: skipBlank(); return getToken();
 	case CHAR_LETTER: return readIdentKeyword();
@@ -386,7 +386,7 @@ int main()
 	char* file4 = "test/example4.kpl";
 	char* file5 = "test/example5.kpl";
 
-	char* file = file5;
+	char* file = file1;
 	if (scan(file) == IO_ERROR) {
 		printf("Can\'t read input file!\n");
 	}
