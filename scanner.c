@@ -206,6 +206,7 @@ Token* getToken(void) {
 		readChar();
 		return token;
 	case CHAR_SLASH:
+		readChar();
 		if(currentChar == EOF){
 			return makeToken(SB_SLASH, lineNo, colNo);
 		}
@@ -228,7 +229,7 @@ Token* getToken(void) {
 		token = makeToken(SB_SLASH, lineNo, colNo);
 		readChar();
 		return token;
-	case CHAR_LT:
+	case CHAR_LT: // less than 
 		ln = lineNo;
 		cn = colNo;
 		readChar();
@@ -241,7 +242,7 @@ Token* getToken(void) {
 			return makeToken(SB_NEQ, ln, cn);
 		}
 		else return makeToken(SB_LT, ln, cn);
-	case CHAR_GT:
+	case CHAR_GT: // greater than 
 		ln = lineNo;
 		cn = colNo;
 		readChar();
@@ -250,7 +251,7 @@ Token* getToken(void) {
 			return makeToken(SB_GE, ln, cn);
 		}
 		else return makeToken(SB_GT, ln, cn);
-	case CHAR_EQ:
+	case CHAR_EQ: // equal 
 		token = makeToken(SB_EQ, lineNo, colNo);
 		readChar();
 		return token;
@@ -267,7 +268,7 @@ Token* getToken(void) {
 			error(ERR_INVALIDSYMBOL, ln, cn);
 			return token;
 		}*/
-	case CHAR_COMMA:
+	case CHAR_COMMA: //comman punctuation 
 		token = makeToken(SB_COMMA, lineNo, colNo);
 		readChar();
 		return token;
@@ -282,11 +283,11 @@ Token* getToken(void) {
 		else return makeToken(SB_PERIOD, ln, cn);*/
 
 		return makeToken(SB_PERIOD, ln, cn);
-	case CHAR_SEMICOLON:
+	case CHAR_SEMICOLON: // ;
 		token = makeToken(SB_SEMICOLON, lineNo, colNo);
 		readChar();
 		return token;
-	case CHAR_COLON:
+	case CHAR_COLON: // :
 		ln = lineNo;
 		cn = colNo;
 		readChar();
@@ -296,7 +297,7 @@ Token* getToken(void) {
 		}
 		else return makeToken(SB_COLON, ln, cn);
 	case CHAR_SINGLEQUOTE: return readConstChar();
-	case CHAR_LPAR:
+	case CHAR_LPAR: //
 		ln = lineNo;
 		cn = colNo;
 		readChar();
@@ -319,11 +320,11 @@ Token* getToken(void) {
 		token = makeToken(SB_RPAR, lineNo, colNo);
 		readChar();
 		return token;
-	case CHAR_LSBRACKET:
+	case CHAR_LSBRACKET: // [
 		token = makeToken(SB_LSEL, lineNo, colNo);
 		readChar();
 		return token;
-	case CHAR_RSBRACKET:
+	case CHAR_RSBRACKET: // ]
 		token = makeToken(SB_RSEL, lineNo, colNo);
 		readChar();
 		return token;
