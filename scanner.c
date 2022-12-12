@@ -7,6 +7,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <conio.h>
 #include "reader.h"
 #include "charcode.h"
 #include "token.h"
@@ -77,14 +78,14 @@ void skipCommentBeginSlash() {
 }
 
 Token* readIdentKeyword(void) {
-	Token* token = makeToken(TK_NONE, lineNo, colNo);
+	Token *token = makeToken(TK_NONE, lineNo, colNo);
 	int count = 1;
 
 	token->string[0] = (char)currentChar;
 	readChar();
 
 	while ((currentChar != EOF) &&
-		((charCodes[currentChar] == CHAR_LETTER) || (charCodes[currentChar] == CHAR_DIGIT))) {
+		((charCodes[currentChar] == CHAR_LETTER) || (charCodes[currentChar] == CHAR_DIGIT) || (charCodes[currentChar] == CHAR_DOLLASIGN) || (charCodes[currentChar] == CHAR_UNDERSCORE ))) {
 		if (count <= MAX_IDENT_LEN) token->string[count++] = (char)currentChar;
 		readChar();
 	}
@@ -192,6 +193,7 @@ Token* getToken(void) {
 	switch (charCodes[currentChar]) {
 	case CHAR_SPACE: skipBlank(); return getToken();
 	case CHAR_LETTER: return readIdentKeyword();
+	case CHAR_UNDERSCORE: return readIdentKeyword();
 	case CHAR_DIGIT: return readNumber();
 	case CHAR_PLUS:
 		token = makeToken(SB_PLUS, lineNo, colNo);

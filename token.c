@@ -1,4 +1,4 @@
-/*
+/* 
  * @copyright (c) 2008, Hedspi, Hanoi University of Technology
  * @author Huu-Duc Nguyen
  * @version 1.0
@@ -9,9 +9,10 @@
 #include "token.h"
 
 struct {
-    char string[MAX_IDENT_LEN + 1];
-    TokenType tokenType;
-} keywords[KEYWORDS_COUNT] = {
+  char string[MAX_IDENT_LEN + 1];
+  TokenType tokenType;
+} 
+keywords[KEYWORDS_COUNT] = {
   {"PROGRAM", KW_PROGRAM},
   {"CONST", KW_CONST},
   {"TYPE", KW_TYPE},
@@ -34,26 +35,26 @@ struct {
   {"TO", KW_TO}
 };
 
-int keywordEq(char* kw, char* string) {
-    while ((*kw != '\0') && (*string != '\0')) {
-        if (*kw != toupper(*string)) break;
-        kw++; string++;
-    }
-    return ((*kw == '\0') && (*string == '\0'));
+int keywordEq(char *kw, char *string) {
+  while ((*kw != '\0') && (*string != '\0')) {
+    if (*kw != toupper(*string)) break;
+    kw ++; string ++;
+  }
+  return ((*kw == '\0') && (*string == '\0'));
 }
 
-TokenType checkKeyword(char* string) {
-    int i;
-    for (i = 0; i < KEYWORDS_COUNT; i++)
-        if (keywordEq(keywords[i].string, string))
-            return keywords[i].tokenType;
-    return TK_NONE;
+TokenType checkKeyword(char *string) {
+  int i;
+  for (i = 0; i < KEYWORDS_COUNT; i++)
+    if (keywordEq(keywords[i].string, string)) 
+      return keywords[i].tokenType;
+  return TK_NONE;
 }
 
 Token* makeToken(TokenType tokenType, int lineNo, int colNo) {
-    Token* token = (Token*)malloc(sizeof(Token));
-    token->tokenType = tokenType;
-    token->lineNo = lineNo;
-    token->colNo = colNo;
-    return token;
+  Token *token = (Token*)malloc(sizeof(Token));
+  token->tokenType = tokenType;
+  token->lineNo = lineNo;
+  token->colNo = colNo;
+  return token;
 }
