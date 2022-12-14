@@ -435,10 +435,10 @@ int main()
 	char* file1 = "test/example1.kpl";
 	char* file2 = "test/example2.kpl";
 	char* file3 = "test/example3.kpl";
-	char* file4 = "test/example4.kpl";
+	char* file4 = "example4.kpl";
 	char* file5 = "test/comment1.pkl";
 
-	char* file = file5;
+	char* file = file4;
 	if (scan(file) == IO_ERROR) {
 		printf("Can\'t read input file!\n");
 	}

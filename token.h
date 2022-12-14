@@ -9,6 +9,7 @@
 
 #define MAX_IDENT_LEN 15
 #define KEYWORDS_COUNT 20
+#define MAX_CONST_CHAR 255
 
 typedef enum {
   TK_NONE, TK_IDENT, TK_NUMBER, TK_CHAR, TK_EOF,
@@ -31,6 +32,7 @@ typedef struct {
   int lineNo, colNo;
   TokenType tokenType;
   int value;
+  char conststring[MAX_CONST_CHAR + 1];
 } Token;
 
 TokenType checkKeyword(char *string);
