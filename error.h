@@ -1,4 +1,4 @@
-/*
+/* 
  * @copyright (c) 2008, Hedspi, Hanoi University of Technology
  * @author Huu-Duc Nguyen
  * @version 1.0
@@ -8,11 +8,10 @@
 #define __ERROR_H__
 
 typedef enum {
-	ERR_ENDOFCOMMENT,
-	ERR_IDENTTOOLONG,
-	ERR_INVALIDCHARCONSTANT,
-	ERR_INVALIDSYMBOL,
-	ERR_CONSTCHARTOOLONG
+  ERR_ENDOFCOMMENT,
+  ERR_IDENTTOOLONG,
+  ERR_INVALIDCHARCONSTANT,
+  ERR_INVALIDSYMBOL
 } ErrorCode;
 
 
@@ -20,7 +19,6 @@ typedef enum {
 #define ERM_IDENTTOOLONG "Identification too long!"
 #define ERM_INVALIDCHARCONSTANT "Invalid const char!"
 #define ERM_INVALIDSYMBOL "Invalid symbol!"
-#define ERM_CONSTCHARTOOLONG "Const char too long!"
 
 void error(ErrorCode err, int lineNo, int colNo);
 
