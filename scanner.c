@@ -6,7 +6,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <conio.h>
+#include <string.h>
 #include "reader.h"
 #include "charcode.h"
 #include "token.h"
@@ -44,6 +44,36 @@ void skipComment() {
 	}
 	if (state != 2)
 		error(ERR_ENDOFCOMMENT, lineNo, colNo);
+}
+
+void skipCommentBeginSlash() {
+	int state = 0;
+	while (currentChar != EOF && state < 2)
+	{
+		switch (charCodes[currentChar])
+		{
+		case CHAR_TIMES:
+			state = 1;
+			break;
+		case CHAR_SLASH:
+			if (state == 1) {
+				state = 2;
+			}
+			else {
+				state = 0;
+			}
+			break;
+		default:
+			state = 0;
+			break;
+		}
+
+		readChar();
+	}
+
+	if (state != 2) {
+		error(ERR_ENDOFCOMMENT, lineNo, colNo);
+	}
 }
 
 Token* readIdentKeyword(void) {
@@ -158,7 +188,7 @@ Token* getToken(void) {
 
 	if (currentChar == EOF)
 		return makeToken(TK_EOF, lineNo, colNo);
-
+	
 	switch (charCodes[currentChar]) {
 	case CHAR_SPACE: skipBlank(); return getToken();
 	case CHAR_LETTER: return readIdentKeyword();
@@ -176,10 +206,30 @@ Token* getToken(void) {
 		readChar();
 		return token;
 	case CHAR_SLASH:
+		readChar();
+		if(currentChar == EOF){
+			return makeToken(SB_SLASH, lineNo, colNo);
+		}
+
+		switch (charCodes[currentChar])
+		{
+		case CHAR_TIMES:
+			readChar();
+			skipCommentBeginSlash();
+			return getToken();
+		case CHAR_SLASH:
+			readChar();
+			while(currentChar != EOF && currentChar != '\n'){
+				readChar();
+			}
+			return getToken();		
+		default:
+			return makeToken(SB_SLASH, lineNo, colNo);
+		}
 		token = makeToken(SB_SLASH, lineNo, colNo);
 		readChar();
 		return token;
-	case CHAR_LT:
+	case CHAR_LT: // less than 
 		ln = lineNo;
 		cn = colNo;
 		readChar();
@@ -192,7 +242,7 @@ Token* getToken(void) {
 			return makeToken(SB_NEQ, ln, cn);
 		}
 		else return makeToken(SB_LT, ln, cn);
-	case CHAR_GT:
+	case CHAR_GT: // greater than 
 		ln = lineNo;
 		cn = colNo;
 		readChar();
@@ -201,7 +251,7 @@ Token* getToken(void) {
 			return makeToken(SB_GE, ln, cn);
 		}
 		else return makeToken(SB_GT, ln, cn);
-	case CHAR_EQ:
+	case CHAR_EQ: // equal 
 		token = makeToken(SB_EQ, lineNo, colNo);
 		readChar();
 		return token;
@@ -218,7 +268,7 @@ Token* getToken(void) {
 			error(ERR_INVALIDSYMBOL, ln, cn);
 			return token;
 		}*/
-	case CHAR_COMMA:
+	case CHAR_COMMA: //comman punctuation 
 		token = makeToken(SB_COMMA, lineNo, colNo);
 		readChar();
 		return token;
@@ -233,11 +283,11 @@ Token* getToken(void) {
 		else return makeToken(SB_PERIOD, ln, cn);*/
 
 		return makeToken(SB_PERIOD, ln, cn);
-	case CHAR_SEMICOLON:
+	case CHAR_SEMICOLON: // ;
 		token = makeToken(SB_SEMICOLON, lineNo, colNo);
 		readChar();
 		return token;
-	case CHAR_COLON:
+	case CHAR_COLON: // :
 		ln = lineNo;
 		cn = colNo;
 		readChar();
@@ -247,7 +297,7 @@ Token* getToken(void) {
 		}
 		else return makeToken(SB_COLON, ln, cn);
 	case CHAR_SINGLEQUOTE: return readConstChar();
-	case CHAR_LPAR:
+	case CHAR_LPAR: //
 		ln = lineNo;
 		cn = colNo;
 		readChar();
@@ -270,11 +320,11 @@ Token* getToken(void) {
 		token = makeToken(SB_RPAR, lineNo, colNo);
 		readChar();
 		return token;
-	case CHAR_LSBRACKET:
+	case CHAR_LSBRACKET: // [
 		token = makeToken(SB_LSEL, lineNo, colNo);
 		readChar();
 		return token;
-	case CHAR_RSBRACKET:
+	case CHAR_RSBRACKET: // ]
 		token = makeToken(SB_RSEL, lineNo, colNo);
 		readChar();
 		return token;
@@ -384,7 +434,7 @@ int main()
 	char* file2 = "test/example2.kpl";
 	char* file3 = "test/example3.kpl";
 	char* file4 = "test/example4.kpl";
-	char* file5 = "test/example5.kpl";
+	char* file5 = "test/comment1.pkl";
 
 	char* file = file5;
 	if (scan(file) == IO_ERROR) {
