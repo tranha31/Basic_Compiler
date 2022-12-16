@@ -13,26 +13,26 @@ struct {
   TokenType tokenType;
 } 
 keywords[KEYWORDS_COUNT] = {
-  {"Program", KW_PROGRAM},
-  {"Const", KW_CONST},
-  {"Type", KW_TYPE},
-  {"Var", KW_VAR},
-  {"Integer", KW_INTEGER},
-  {"Char", KW_CHAR},
-  {"Array", KW_ARRAY},
-  {"Of", KW_OF},
-  {"Function", KW_FUNCTION},
-  {"Procedure", KW_PROCEDURE},
-  {"Begin", KW_BEGIN},
-  {"End", KW_END},
-  {"Call", KW_CALL},
-  {"If", KW_IF},
-  {"Then", KW_THEN},
-  {"Else", KW_ELSE},
-  {"While", KW_WHILE},
-  {"Do", KW_DO},
-  {"For", KW_FOR},
-  {"To", KW_TO}
+  {"program", KW_PROGRAM},
+  {"const", KW_CONST},
+  {"type", KW_TYPE},
+  {"var", KW_VAR},
+  {"integer", KW_INTEGER},
+  {"char", KW_CHAR},
+  {"array", KW_ARRAY},
+  {"of", KW_OF},
+  {"function", KW_FUNCTION},
+  {"procedure", KW_PROCEDURE},
+  {"begin", KW_BEGIN},
+  {"end", KW_END},
+  {"call", KW_CALL},
+  {"if", KW_IF},
+  {"then", KW_THEN},
+  {"else", KW_ELSE},
+  {"while", KW_WHILE},
+  {"do", KW_DO},
+  {"for", KW_FOR},
+  {"to", KW_TO}
 };
 
 int keywordEq(char *kw, char *string) {
